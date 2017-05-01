@@ -1,5 +1,4 @@
 import "isomorphic-fetch";
-import pjson from "../package.json";
 
 export interface IRequestError extends Error {
   status: number;
@@ -42,7 +41,7 @@ function fetchRequest(
   fetch(url, {
     headers: {
       'Accept': 'application/json',
-      'User-Agent': `Prismic-javascript-kit/${pjson.version}`
+      'User-Agent': 'Prismic-javascript-kit'
     }
   }).then(function (response) {
     if (~~(response.status / 100 != 2)) {

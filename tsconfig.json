@@ -2,13 +2,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "declaration": false,
-    "jsx": "react",
     "module": "commonjs",
     "noImplicitAny": true,
     "preserveConstEnums": true,
     "removeComments": false,
     "sourceMap": true,
-    "target": "es5",
+    "lib": ["es5", "dom", "es2015.promise"],
     "strictNullChecks": true
   },
   "exclude": [

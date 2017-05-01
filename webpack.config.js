@@ -36,6 +36,10 @@ var config = {
           emitErrors: true,
           failOnHint: true
         }
+      },
+      {
+        test: /\.json$/,
+        use: 'json-loader'
       }
     ]
   },
