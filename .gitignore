@@ -6,3 +6,4 @@ local-build
 .grunt
 .tern-port
 npm-debug.log
+.DS_Store
