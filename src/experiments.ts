@@ -2,25 +2,25 @@ export interface IExperiment {
   variations: IVariation[];
   data: any;
 
-  id: () => string;
-  googleId: () => string;
-  name: () => string;
+  id(): string;
+  googleId(): string;
+  name(): string;
 }
 
 export interface IVariation {
   data: any;
 
-  id: () => string;
-  ref: () => string;
-  label: () => string;
+  id(): string;
+  ref(): string;
+  label(): string;
 }
 
 export interface IExperiments {
   drafts: IExperiment[];
   running: IExperiment[];
 
-  current: () => IExperiment | null;
-  refFromCookie: (cookie: string) => string | null;
+  current(): IExperiment | null;
+  refFromCookie(cookie: string): string | null;
 }
 
 export class Variation implements IVariation {

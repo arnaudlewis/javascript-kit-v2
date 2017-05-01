@@ -1,6 +1,6 @@
 export interface IPredicate {
   op: Operator;
-  toString: () => string;
+  toString(): string;
 }
 
 export enum Operator {
@@ -469,3 +469,34 @@ export class NearPredicate implements IPredicate {
     return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.latitude}, ${this.longitude}, ${this.radius})]`;
   }
 }
+
+export const Predicates = {
+  at: AtPredicate,
+  not: NotPredicate,
+  missing: MissingPredicate,
+  has: HasPredicate,
+  any: AnyPredicate,
+  in: InPredicate,
+  fulltext: FulltextPredicate,
+  similar: SimilarPredicate,
+  gt: GtPredicate,
+  lt: LtPredicate,
+  inRange: InRangePredicate,
+  before: DateBeforePredicate,
+  after: DateAfterPredicate,
+  between: DateBetweenPredicate,
+  dayOfMonth: DayOfMonthPredicate,
+  dayOfMonthAfter: DayOfMonthAfterPredicate,
+  dayOfMonthBefore:DayOfMonthBeforePredicate,
+  dayOfWeek: DayOfWeekPredicate,
+  dayOfWeekAfter: DayOfWeekAfterPredicate,
+  dayOfWeekBefore: DayOfWeekBeforePredicate,
+  month: MonthPredicate,
+  monthBefore: MonthBeforePredicate,
+  monthAfter: MonthAfterPredicate,
+  year: YearPredicate,
+  hour: HourPredicate,
+  hourBefore: HourBeforePredicate,
+  hourAfter: HourAfterPredicate,
+  near: NearPredicate
+};

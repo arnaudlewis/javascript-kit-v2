@@ -67,7 +67,7 @@ function fetchRequest(
 }
 
 export interface IRequestHandler {
-  request: (url: String, cb: (error: any, result: any, xhr: any, ttl: number) => void) => any
+  request(url: String, cb: (error: Error | null, result?: any, xhr?: any) => void): void
 }
 
 function processQueue() {
@@ -80,17 +80,17 @@ function processQueue() {
   fetchRequest(next.url,
     function({result, xhr, ttl}: IRequestCallbackSuccess) {
       running--;
-      next.callback(result, xhr, ttl);
+      next.callback(null, result, xhr, ttl);
       processQueue();
     },
     function({error}: IRequestCallbackFailure) {
-      console.log(error);
+      next.callback(error);
     }
   );
 }
 
 export class DefaultRequestHandler implements IRequestHandler {
-  request(url: String, cb: (error: any, result: any, xhr: any, ttl: number) => void): void {
+  request(url: String, cb: (error: Error | null, result?: any, xhr?: any, ttl?: number) => void): void {
     queue.push({
       'url': url,
       'callback': cb

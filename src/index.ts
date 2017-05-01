@@ -1,6 +1,7 @@
 import { Document, GroupDoc } from "./documents";
 import {
   IApiOptions,
+  IApi,
   Api,
   ExperimentCookie,
   PreviewCookie,
@@ -12,10 +13,30 @@ import { DefaultRequestHandler } from './request';
 import * as Predicates from './predicates';
 import { Experiments } from './experiments';
 
-const defaultOptions: IApiOptions = {};
+function getApi(url: string, options: IApiOptions): Promise<IApi> {
+  var api = new Api(url, options);
+  //Use cached api data if available
+  return new Promise(function(resolve, reject) {
+    var cb = function(err: Error | null, value?: any, xhr?: any) {
+      if (options.complete) options.complete(err, value, xhr);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(value);
+      }
+    };
+    api.get(function (err: Error, data: any) {
+      if (!err && data) {
+        api.data = data;
+        api.bookmarks = data.bookmarks;
+        api.experiments = new Experiments(data.experiments);
+      }
 
-function getApi(url: String, options: IApiOptions = defaultOptions): Promise<Api> {
-  return Promise.resolve(new Api());
+      cb(err, api);
+    });
+
+    return api;
+  });
 }
 
 export default {
