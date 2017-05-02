@@ -1,7 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
+    "declarationDir": "./declarations",
     "module": "commonjs",
     "noImplicitAny": true,
     "preserveConstEnums": true,

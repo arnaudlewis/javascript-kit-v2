@@ -17,7 +17,6 @@ var config = {
   entry: [
     __dirname + '/src/index.ts'
   ],
-  devtool: 'source-map',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: outputFile,
@@ -43,6 +42,14 @@ var config = {
       }
     ]
   },
+  externals: [{
+    "isomorphic-fetch": {
+      root: 'isomorphic-fetch',
+      commonjs2: 'isomorphic-fetch',
+      commonjs: 'isomorphic-fetch',
+      amd: 'isomorphic-fetch'
+    }
+  }],
   resolve: {
     extensions: ['.ts']
   },
