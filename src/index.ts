@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import { Document, GroupDoc } from "./documents";
 import {
   IApiOptions,
@@ -17,12 +19,12 @@ function getApi(url: string, options: IApiOptions): Promise<IApi> {
   var api = new Api(url, options);
   //Use cached api data if available
   return new Promise(function(resolve, reject) {
-    var cb = function(err: Error | null, value?: any, xhr?: any) {
-      if (options.complete) options.complete(err, value, xhr);
+    var cb = function(err: Error | null, api?: any) {
+      if (options.complete) options.complete(err, api);
       if (err) {
         reject(err);
       } else {
-        resolve(value);
+        resolve(api);
       }
     };
     api.get(function (err: Error, data: any) {

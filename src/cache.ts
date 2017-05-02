@@ -3,7 +3,7 @@ import { ILRUCache, MakeLRUCache } from './lru';
 export interface IApiCache {
   isExpired(key: String): boolean;
   get(key: string, cb: (error ?: Error | null, entry?: any) => any): void;
-  set(key: string, value: any, ttl: number, cb: (error ?: Error | null, entry?: any) => any): void;
+  set(key: string, value: any, ttl: number, cb: (error ?: Error) => void): void;
   remove(key: string, cb: (error ?: Error | null) => any): void;
   clear(cb: (error ?: Error | null) => any): void;
 }
@@ -32,12 +32,13 @@ export class DefaultApiCache implements IApiCache {
     cb();
   }
 
-  set(key: string, value: any, ttl: number, cb: (error ?: Error | null, entry?: any) => any): void {
+  set(key: string, value: any, ttl: number, cb: (error ?: Error) => void): void {
     this.lru.remove(key);
     this.lru.put(key, {
       data: value,
       expiredIn: ttl ? (Date.now() + (ttl * 1000)) : 0
     });
+    cb();
   }
 
   remove(key: string, cb: (error ?: Error | null) => any): void {

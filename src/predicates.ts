@@ -45,7 +45,7 @@ export class AtPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.value}")]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.value}")]`;
   }
 }
 
@@ -60,7 +60,7 @@ export class NotPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.value}")]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.value}")]`;
   }
 }
 
@@ -73,7 +73,7 @@ export class MissingPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}")]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment})]`;
   }
 }
 
@@ -86,7 +86,7 @@ export class HasPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}")]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment})]`;
   }
 }
 
@@ -101,7 +101,7 @@ export class AnyPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", [${this.values.join(',')}])]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, [${this.values.join(',')}])]`;
   }
 }
 
@@ -116,7 +116,7 @@ export class InPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", [${this.values.join(',')}])]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, [${this.values.join(',')}])]`;
   }
 }
 
@@ -131,7 +131,7 @@ export class FulltextPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.value}")]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.value}")]`;
   }
 }
 
@@ -146,7 +146,7 @@ export class SimilarPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.documentId}", ${this.maxResults})]`;
+    return `[:d = ${Operator[this.op]}("${this.documentId}", ${this.maxResults})]`;
   }
 }
 
@@ -161,7 +161,7 @@ export class GtPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.value})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.value})]`;
   }
 }
 
@@ -176,7 +176,7 @@ export class LtPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.value})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.value})]`;
   }
 }
 
@@ -193,7 +193,7 @@ export class InRangePredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.before}, ${this.after})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.before}, ${this.after})]`;
   }
 }
 
@@ -208,7 +208,7 @@ export class DateBeforePredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.before.getTime()})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.before.getTime()})]`;
   }
 }
 
@@ -223,7 +223,7 @@ export class DateAfterPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.after.getTime()})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.after.getTime()})]`;
   }
 }
 
@@ -240,7 +240,7 @@ export class DateBetweenPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.before.getTime()}, ${this.after.getTime()})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.before.getTime()}, ${this.after.getTime()})]`;
   }
 }
 
@@ -255,7 +255,7 @@ export class DayOfMonthPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
 
@@ -270,7 +270,7 @@ export class DayOfMonthAfterPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
 
@@ -285,7 +285,7 @@ export class DayOfMonthBeforePredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
 
@@ -300,7 +300,7 @@ export class DayOfWeekPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
 
@@ -315,7 +315,7 @@ export class DayOfWeekAfterPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
 
@@ -330,7 +330,7 @@ export class DayOfWeekBeforePredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.day})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.day})]`;
   }
 }
  
@@ -346,9 +346,9 @@ export class MonthPredicate implements IPredicate {
 
   toString(): string {
     if(typeof this.month === 'number') {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.month})]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.month})]`;
     } else {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.month}")]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.month}")]`;
     }
   }
 }
@@ -365,9 +365,9 @@ export class MonthBeforePredicate implements IPredicate {
 
   toString(): string {
     if(typeof this.month === 'number') {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.month})]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.month})]`;
     } else {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.month}")]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.month}")]`;
     }
   }
 }
@@ -384,9 +384,9 @@ export class MonthAfterPredicate implements IPredicate {
 
   toString(): string {
     if(typeof this.month === 'number') {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.month})]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.month})]`;
     } else {
-      return `[:d = ${this.op.valueOf}("${this.fragment}", "${this.month}")]`;
+      return `[:d = ${Operator[this.op]}(${this.fragment}, "${this.month}")]`;
     }
   }
 }
@@ -402,7 +402,7 @@ export class YearPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.year})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.year})]`;
   }
 }
 
@@ -417,7 +417,7 @@ export class HourPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.hour})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.hour})]`;
   }
 }
 
@@ -432,7 +432,7 @@ export class HourBeforePredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.hour})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.hour})]`;
   }
 }
 
@@ -447,7 +447,7 @@ export class HourAfterPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.hour})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.hour})]`;
   }
 }
 
@@ -466,7 +466,7 @@ export class NearPredicate implements IPredicate {
   }
 
   toString(): string {
-    return `[:d = ${this.op.valueOf}("${this.fragment}", ${this.latitude}, ${this.longitude}, ${this.radius})]`;
+    return `[:d = ${Operator[this.op]}(${this.fragment}, ${this.latitude}, ${this.longitude}, ${this.radius})]`;
   }
 }
 

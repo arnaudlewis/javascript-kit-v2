@@ -124,15 +124,14 @@ export class SearchForm implements ISearchForm {
 
     if(!fieldDesc) throw new Error("Unknown field " + field);
 
-    const checkedValue = () => value === '' || value === undefined ? null : value;
-    const values = (() => {
-      const defaultValues = this.data[field] || [];
-      if(fieldDesc.multiple) {
-        return checkedValue ? defaultValues.concat([checkedValue]) : defaultValues;
-      } else {
-        return checkedValue ? [checkedValue] : defaultValues;
-      }
-    })();
+    const checkedValue = value === '' || value === undefined ? null : value;
+    let values = this.data[field] || [];
+    if(fieldDesc.multiple) {
+      values = checkedValue ? values.concat([checkedValue]) : values;
+    } else {
+      values = checkedValue ? [checkedValue] : values;
+    }
+    this.data[field] = values;
     return this;
   }
 
@@ -217,16 +216,15 @@ export class SearchForm implements ISearchForm {
    * Submits the query, and calls the callback function.
    */
   submit(callback: (error: Error | null, response: IApiResponse, xhr: any) => void): any {
-    var self = this;
-    var url = this.form.action;
-
+    const self = this;
+    let url = this.form.action;
     if (this.data) {
-      var sep = (url.indexOf('?') > -1 ? '&' : '?');
-      for(var key in this.data) {
+      let sep = (url.indexOf('?') > -1 ? '&' : '?');
+      for(const key in this.data) {
         if (this.data.hasOwnProperty(key)) {
-          var values = this.data[key];
+          const values = this.data[key];
           if (values) {
-            for (var i = 0; i < values.length; i++) {
+            for (let i = 0; i < values.length; i++) {
               url += sep + key + '=' + encodeURIComponent(values[i]);
               sep = '&';
             }
@@ -234,8 +232,7 @@ export class SearchForm implements ISearchForm {
         }
       }
     }
-
-    return this.api.requestHandler.request(url, callback);
+    return this.api.request(url, callback);
   }
 }
 
@@ -285,6 +282,7 @@ export interface IApiOptions {
   accessToken: string;
   complete?: (err: Error | null, value?: any, xhr?: any) => void;
   requestHandler?: IRequestHandler;
+  req: any;
   apiCache?: IApiCache;
   apiDataTTL?: number;
 }
@@ -292,32 +290,60 @@ export interface IApiOptions {
 export interface IApi {
   url: string;
   accessToken: string;
+  req: any;
   apiCacheKey: string;
   apiCache: IApiCache;
   apiDataTTL: number;
   requestHandler: IRequestHandler;
   experiments: IExperiments;
   bookmarks: string[];
+  refs: Ref[];
+  types: object;
+  tags: string[];
   data: any;
   forms: IForm[];
+  oauthInitiate: string;
+  oauthToken: string;
+  quickRoutes: any;
+
+  get(callback: (err: Error | null, value?: any, xhr?: any, ttl?: number) => void): Promise<IApi>;
+  request(url: string, callback: (err: Error | null, results: IApiResponse | null, xhr?: any) => void): PromiseLike<IApiResponse>;
+  refresh(callback: (err: Error | null | undefined, data: any, xhr: any) => void): PromiseLike<IApiResponse>;
+  parse(data: any): object;
+  form(formId: string): ISearchForm | null;
+  everything(): ISearchForm;
+  master(): string;
+  ref(label: string): string | null;
+  currentExperiment(): IExperiment | null;
+  quickRoutesEnabled(): boolean;
+  getQuickRoutes(callback: (err: Error, data: any, xhr: any) => void): Promise<any>;
+  query(q: string | IPredicate | IPredicate[], optionsOrCallback: object | ((err: Error | null, response?: any) => void), cb: (err: Error | null, response?: any) => void): Promise<IApiResponse>;
 }
 
 export class Api implements IApi {
   url: string;
   accessToken: string;
+  req: any;
   apiCacheKey: string;
   apiCache: IApiCache;
   apiDataTTL: number;
   requestHandler: IRequestHandler;
   experiments: IExperiments;
   bookmarks: string[];
+  refs: Ref[];
+  types: object;
+  tags: string[];
   data: any;
   forms: IForm[];
+  oauthInitiate: string;
+  oauthToken: string;
+  quickRoutes: any;
 
   constructor(url: string, options: IApiOptions) {
-    var opts = options || {};
+    const opts = options || {};
     this.accessToken = opts.accessToken;
     this.url = url + (this.accessToken ? (url.indexOf('?') > -1 ? '&' : '?') + 'access_token=' + this.accessToken : '');
+    this.req = opts.req;
     this.apiCache = opts.apiCache || new DefaultApiCache();
     this.requestHandler = opts.requestHandler || new DefaultRequestHandler();
     this.apiCacheKey = this.url + (this.accessToken ? ('#' + this.accessToken) : '');
@@ -329,17 +355,17 @@ export class Api implements IApi {
    * present, otherwise from calling the prismic api endpoint (which is
    * then cached).
    */
-  get(callback: (err: Error | null, value?: any, xhr?: any, ttl?: number) => void) {
-    var self = this;
-    var cacheKey = this.apiCacheKey;
+  get(callback: (err: Error | null, value?: any, xhr?: any, ttl?: number) => void): Promise<IApi> {
+    const self = this;
+    const cacheKey = this.apiCacheKey;
 
     return new Promise(function (resolve, reject) {
-      var cb = function(err: Error | null, value?: any, xhr?: any, ttl?: number) {
+      const cb = function(err: Error | null, value?: any, xhr?: any, ttl?: number) {
         if (callback) callback(err, value, xhr, ttl);
         if (value) resolve(value);
         if (err) reject(err);
       };
-      self.apiCache.get(cacheKey, function (err: Error, value: any) {
+      self.apiCache.get(cacheKey, function (err: Error | null, value?: any) {
         if (err || value) {
           cb(err, value);
           return;
@@ -368,7 +394,7 @@ export class Api implements IApi {
    * @param {function} callback - Optional callback function that is called after the data has been refreshed
    * @returns {Promise}
    */
-  refresh(callback: (err: Error | null | undefined, data: any, xhr: any) => void) {
+  refresh(callback: (err: Error | null | undefined, data: any, xhr: any) => void): PromiseLike<IApiResponse> {
     const self = this;
     const cacheKey = this.apiCacheKey;
 
@@ -402,7 +428,7 @@ export class Api implements IApi {
    * @returns {Api} - The Api object that can be manipulated
    * @private
    */
-  parse(data: any) {
+  parse(data: any): object {
     // Parse the forms
     const forms = Object.keys(data.forms || []).reduce((acc: any, key: string, i: number) => {
       if (data.forms.hasOwnProperty(key)) {
@@ -415,15 +441,16 @@ export class Api implements IApi {
         }
 
         const form = new Form(
-          f.name,
           f.fields,
-          f.form_method,
+          f.action,
+          f.name,
           f.rel,
-          f.enctype,
-          f.action
+          f.form_method,
+          f.enctype
         );
 
         acc[key] = form;
+        return acc;
       } else {
         return acc;
       }
@@ -463,7 +490,6 @@ export class Api implements IApi {
       oauthToken: data['oauth_token'],
       quickRoutes: data.quickRoutes
     };
-
   }
 
   /**
@@ -522,8 +548,8 @@ export class Api implements IApi {
   /**
    * Retrieve quick routes definitions
    */
-  quickRoutes(callback: (err: Error, data: any, xhr: any) => void) {
-    var self = this;
+  getQuickRoutes(callback: (err: Error, data: any, xhr: any) => void): Promise<any> {
+    const self = this;
     return new Promise(function(resolve, reject) {
       this.requestHandler.request(self.data.quickRoutes.url, function(err: Error, data: any, xhr: any) {
         if (callback) callback(err, data, xhr);
@@ -535,11 +561,8 @@ export class Api implements IApi {
 
   /**
    * Query the repository
-   * @param {string|array|Predicate} the query itself
-   * @param {object} additional parameters. In NodeJS, pass the request as 'req'.
-   * @param {function} callback(err, response)
    */
-  query(q: string | IPredicate | IPredicate[], optionsOrCallback: object | ((err: Error | null, response?: any) => void), cb: (err: Error | null, response?: any) => void) {
+  query(q: string | IPredicate | IPredicate[], optionsOrCallback: object | ((err: Error | null, response?: any) => void), cb: (err: Error | null, response?: any) => void): Promise<IApiResponse> {
         const {options, callback} = typeof optionsOrCallback === 'function'
       ? {options: {}, callback: optionsOrCallback}
       : {options: optionsOrCallback || {}, callback: cb};
@@ -549,6 +572,19 @@ export class Api implements IApi {
     var form = this.everything();
     for (var key in opts) {
       form = form.set(key, opts[key]);
+    }
+    if (!opts['ref']) {
+      // Look in cookies if we have a ref (preview or experiment)
+      var cookieString = '';
+      if (this.req) { // NodeJS
+        cookieString = this.req.headers["cookie"] || '';
+      } else if (typeof window !== 'undefined') { // Browser
+        cookieString = window.document.cookie || '';
+      }
+      var cookies = Cookies.parse(cookieString);
+      var previewRef = cookies[PreviewCookie];
+      var experimentRef = this.experiments.refFromCookie(cookies[ExperimentCookie]);
+      form = form.ref(previewRef || experimentRef || this.master());
     }
     if (q) {
       form.query(q);
@@ -577,6 +613,8 @@ export class Api implements IApi {
       }
     }).then(function(response: any){
       return response && response.results && response.results[0];
+    }).catch((e: Error) => {
+      console.log(e);
     });
   }
 

@@ -1,5 +1,3 @@
-import "isomorphic-fetch";
-
 export interface IRequestError extends Error {
   status: number;
 }
@@ -38,7 +36,7 @@ function fetchRequest(
   onSuccess: (_: IRequestCallbackSuccess) => void,
   onError: (_: IRequestCallbackFailure) => void
 ): any {
-  fetch(url, {
+  return fetch(url, {
     headers: {
       'Accept': 'application/json',
       'User-Agent': 'Prismic-javascript-kit'
