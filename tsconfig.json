@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./declarations",
+    "declarationDir": "../d.ts",
     "module": "commonjs",
     "noImplicitAny": true,
     "preserveConstEnums": true,

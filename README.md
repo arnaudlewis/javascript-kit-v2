@@ -1,37 +1,35 @@
-## JavaScript development kit for prismic.io
+## JavaScript development kit v2 for prismic.io
 
 [![npm version](https://badge.fury.io/js/prismic.io.svg)](http://badge.fury.io/js/prismic.io)
-[![Build Status](https://api.travis-ci.org/prismicio/javascript-kit.png)](https://travis-ci.org/prismicio/javascript-kit)
-[![Code Climate](https://codeclimate.com/github/prismicio/javascript-kit.png)](https://codeclimate.com/github/prismicio/javascript-kit)
-[![Test Coverage](https://codeclimate.com/github/prismicio/javascript-kit/badges/coverage.svg)](https://codeclimate.com/github/prismicio/javascript-kit/coverage)
+[![Build Status](https://api.travis-ci.org/arnaudlewis/javascript-kit-v2.png)](https://travis-ci.org/arnaudlewis/javascript-kit-v2)
 
-* The [source code](https://github.com/prismicio/javascript-kit) is on Github.
-* The [Changelog](https://github.com/prismicio/javascript-kit/releases) is on Github's releases tab.
+* The [source code](https://github.com/arnaudlewis/javascript-kit-v2) is on Github.
+* The [Changelog](https://github.com/arnaudlewis/javascript-kit-v2/releases) is on Github's releases tab.
 
 ### Installation
 
 #### NPM
 
 ```sh
-npm install prismic.io --save
+npm install prismic-javascript --save
 ```
 
 #### CDN
 
 ```
-https://unpkg.com/prismic.io/dist/prismic.io.min.js
+https://unpkg.com/prismic-javascript
 ```
 
 (You may need to adapt the version number)
 
 #### Downloadable version
 
-On our release page: [https://github.com/prismicio/javascript-kit/releases](https://github.com/prismicio/javascript-kit/releases).
+On our release page: [https://github.com/arnaudlewis/javascript-kit-v2/releases](https://github.com/arnaudlewis/javascript-kit-v2/releases).
 
 The kit is universal, it can be used:
 
 * Server-side with NodeJS
-* Client-side as part of your build with Browserify, Webpack (you need a [Promise polyfill](https://github.com/jakearchibald/es6-promise) to support IE11 and below)
+* Client-side as part of your build with Browserify, Webpack
 * Client-side with a simple script tag
 
 ### Starter kits
@@ -46,7 +44,7 @@ For new project, you can start from a sample project:
 To fetch documents from your repository, you need to fetch the Api data first.
 
 ```javascript
-var Prismic = require('prismic.io');
+var Prismic = require('prismic-javascript');
 
 Prismic.api("http://your_repository_name.prismic.io/api", function(error, api) {
   var options = {}; // In Node.js, pass the request as 'req' to read the reference from the cookies
@@ -62,9 +60,9 @@ Prismic.api("http://your_repository_name.prismic.io/api", function(error, api) {
 All asynchronous calls return ES2015 promises, so alternatively you can use them instead of callbacks.
 
 ```javascript
-var Prismic = require('prismic.io');
+var Prismic = require('prismic-javascript');
 
-Prismic.api("https://lesbonneschoses.prismic.io/api").then(function(api) {
+Prismic.api("https://your-repository-name.prismic.io/api").then(function(api) {
   return api.query(""); // An empty query will return all the documents
 }).then(function(response) {
   console.log("Documents: ", response.results);
@@ -73,20 +71,16 @@ Prismic.api("https://lesbonneschoses.prismic.io/api").then(function(api) {
 });
 ```
 
-See the [developer documentation](https://prismic.io/docs) or the [API documentation](http://prismicio.github.io/javascript-kit/) for more details on how to use it.
-
-### Contribute to the kit
-
-Contribution is open to all developer levels, read our "[Contribute to the official kits](https://developers.prismic.io/documentation/UszOeAEAANUlwFpp/contribute-to-the-official-kits)" documentation to learn more.
+See the [developer documentation](https://prismic.io/docs) or the [API documentation](https://arnaudlewis.github.io/javascript-kit-v2/) for more details on how to use it.
 
 #### Install the kit locally
 
-Source files are in the `lib/` directory. You only need [Node.js and npm](http://www.joyent.com/blog/installing-node-and-npm/)
+Source files are in the `src/` directory. You only need [Node.js and npm](http://www.joyent.com/blog/installing-node-and-npm/)
 to work on the codebase.
 
 ```
 npm install
-npm test
+npm run dev
 ```
 
 #### Documentation

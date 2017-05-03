@@ -1,0 +1,16 @@
+import 'isomorphic-fetch';
+import { Document } from "./documents";
+import { IApiOptions, IApi, Form, SearchForm } from "./api";
+import * as Predicates from './predicates';
+import { Experiments } from './experiments';
+declare var _default: {
+    experimentCookie: string;
+    previewCookie: string;
+    Document: typeof Document;
+    SearchForm: typeof SearchForm;
+    Form: typeof Form;
+    Experiments: typeof Experiments;
+    Predicates: typeof Predicates;
+    api: (url: string, options: IApiOptions) => Promise<IApi>;
+};
+export default _default;
