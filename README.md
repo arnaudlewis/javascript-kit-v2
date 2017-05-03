@@ -5,6 +5,7 @@
 
 * The [source code](https://github.com/arnaudlewis/javascript-kit-v2) is on Github.
 * The [Changelog](https://github.com/arnaudlewis/javascript-kit-v2/releases) is on Github's releases tab.
+* The [API reference](https://arnaudlewis.github.io/javascript-kit-v2/) is on Github.
 
 ### Installation
 
