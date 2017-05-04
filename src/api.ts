@@ -578,7 +578,7 @@ export class Api implements IApi {
       var cookieString = '';
       if (this.req) { // NodeJS
         cookieString = this.req.headers["cookie"] || '';
-      } else if (typeof window !== 'undefined') { // Browser
+      } else if (typeof window !== 'undefined' && window.document) { // Browser
         cookieString = window.document.cookie || '';
       }
       var cookies = Cookies.parse(cookieString);
