@@ -1,5 +1,3 @@
-"use strict";
-
 export interface ICookie {
   [key: string]: string;
   value: string;

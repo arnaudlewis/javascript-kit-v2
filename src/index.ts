@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 
-import { Document, GroupDoc } from "./documents";
+import { Document, GroupDoc } from "@root/documents";
 import {
   IApiOptions,
   IApi,
@@ -11,9 +11,9 @@ import {
   SearchForm
 } from "./api";
 
-import { DefaultRequestHandler } from './request';
-import * as Predicates from './predicates';
-import { Experiments } from './experiments';
+import { DefaultRequestHandler } from '@root/request';
+import * as Predicates from '@root/predicates';
+import { Experiments } from '@root/experiments';
 
 function getApi(url: string, options: IApiOptions): Promise<IApi> {
   var api = new Api(url, options);

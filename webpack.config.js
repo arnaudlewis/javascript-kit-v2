@@ -51,6 +51,9 @@ var config = {
     }
   }],
   resolve: {
+    alias:{
+      "@root": path.resolve( __dirname, './src' )
+    },
     extensions: ['.ts']
   },
   plugins: plugins

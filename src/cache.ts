@@ -1,4 +1,4 @@
-import { ILRUCache, MakeLRUCache } from './lru';
+import { ILRUCache, MakeLRUCache } from '@root/lru';
 
 export interface IApiCache {
   isExpired(key: String): boolean;

@@ -1,8 +1,8 @@
-import { IPredicate } from './predicates';
-import { IExperiments, IExperiment } from './experiments';
-import { IRequestHandler } from './request';
-import { IDocument } from './documents';
-import { IApiCache } from './cache';
+import { IPredicate } from '@root/predicates';
+import { IExperiments, IExperiment } from '@root/experiments';
+import { IRequestHandler } from '@root/request';
+import { IDocument } from '@root/documents';
+import { IApiCache } from '@root/cache';
 export declare const PreviewCookie = "io.prismic.preview";
 export declare const ExperimentCookie = "io.prismic.experiment";
 export interface IRef {

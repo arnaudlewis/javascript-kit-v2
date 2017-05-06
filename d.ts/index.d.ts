@@ -1,8 +1,8 @@
 import 'isomorphic-fetch';
-import { Document } from "./documents";
+import { Document } from "@root/documents";
 import { IApiOptions, IApi, Form, SearchForm } from "./api";
-import * as Predicates from './predicates';
-import { Experiments } from './experiments';
+import * as Predicates from '@root/predicates';
+import { Experiments } from '@root/experiments';
 declare var _default: {
     experimentCookie: string;
     previewCookie: string;
