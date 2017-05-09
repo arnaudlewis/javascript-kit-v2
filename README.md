@@ -40,6 +40,11 @@ For new project, you can start from a sample project:
 * [Node.js project](https://github.com/prismicio/nodejs-sdk)
 * [Node.js blog](https://github.com/prismicio/nodejs-blog)
 
+### Demo project
+
+You can find an integration of prismic content with the new API V2 in the following project:
+* [Node.js project](https://github.com/arnaudlewis/prismic-apiv2)
+
 ### Usage
 
 To fetch documents from your repository, you need to fetch the Api data first.
