@@ -5,7 +5,7 @@
 
 * The [source code](https://github.com/arnaudlewis/javascript-kit-v2) is on Github.
 * The [Changelog](https://github.com/arnaudlewis/javascript-kit-v2/releases) is on Github's releases tab.
-* The [API reference](https://arnaudlewis.github.io/javascript-kit-v2/) is on Github.
+* The [API reference](https://arnaudlewis.github.io/javascript-kit-v2/globals.html) is on Github.
 
 ### Installation
 
@@ -72,7 +72,7 @@ Prismic.api("https://your-repository-name.prismic.io/api").then(function(api) {
 });
 ```
 
-See the [developer documentation](https://prismic.io/docs) or the [API documentation](https://arnaudlewis.github.io/javascript-kit-v2/) for more details on how to use it.
+See the [developer documentation](https://prismic.io/docs) or the [API documentation](https://arnaudlewis.github.io/javascript-kit-v2/globals.html) for more details on how to use it.
 
 #### Install the kit locally
 
